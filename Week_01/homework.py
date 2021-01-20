@@ -135,13 +135,13 @@ def two_sum(nums: List[int], target: int):
 
 
 def two_sum_optimize(nums: List[int], target: int):
-    res, len_nums = {}, len(nums)
+    res = {}
     for index, value in enumerate(nums):
         rest_part = target - value
         if rest_part in res:
             return [res[rest_part], index]
         else:
-            res[rest_part] = index
+            res[value] = index
     return res
 
 
