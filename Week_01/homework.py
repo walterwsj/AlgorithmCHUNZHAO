@@ -221,5 +221,20 @@ def plus_one_opi_1(digits: List[int]):
         return digits
 
 
-a = [1, 2, 3]
-print(remove_duplicates(a))
+"""
+有效的字母异位词
+"""
+
+
+def is_anagram(self, s: str, t: str) -> bool:
+    if len(s) != len(t):
+        return False
+    len_t, count = len(s), [0] * 26
+    for i in range(len_t):
+        count[ord(s[i]) - ord("a")] += 1
+        count[ord(t[i]) - ord("a")] -= 1
+    for i in count:
+        if i != 0:
+            return False
+    return True
+
