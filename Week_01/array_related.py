@@ -59,10 +59,10 @@ def max_area_opti_2(nums):
 def get_floor(n):
     if n < 1:
         return 0
-    if 1 <= n <= 2:
+    if 1 <= n < 2:
         return 1
     s1, s2 = 1, 1
-    for i in range(3, n + 1):
+    for i in range(2, n + 1):
         s1, s2 = s2, s1 + s2
     return s1 + 1
 
