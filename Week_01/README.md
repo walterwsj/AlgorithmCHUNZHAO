@@ -111,3 +111,107 @@
         return digits[1:]
     else
         return digits
+
+
+########################################################################
+链表的反转
+
+两个指针，一个前置，一个当前。如果当前指针不为空，将当前指针的后继存储下来，当前指针的
+后继指向前置结点，前置结点替换为当前，当前结点替换为后继
+
+while cur：
+    next_node=cur.next
+    cur.next=pre
+    pre=cur
+    cur=next_node
+pre.next=None
+return pre
+
+
+相邻结点交换
+
+常规迭代
+
+设置一个虚拟头指针，虚拟指针的后继为传入的待排链表。设置虚拟指针的下一结点为start，虚拟指针
+的下下结点为end
+while pre.next and pre.next.next:
+    start=pre.next
+    end=pre.next.next
+    pre.next=start.next
+    start.next=end.next
+    end.next=start
+    pre=start
+return dummy.next
+
+递归
+
+不需要设置虚拟节点，定义一个后继结点存储待排节点即可
+
+next_node=head.next
+head.next=swap_pair(next_node.next)
+next_node.next=head
+
+
+K个结点为一个单位的交换
+
+方法一：
+
+栈。设置一个栈存储需要排列的结点，出栈的顺序即为倒序
+dummy一个空结点
+while True:
+    stack，count，tmp=[]，0，head
+    while count！=k and tmp:
+        stack.append(tmp)
+        tmp=tmp.next
+        count+=1
+    if count!=k:
+        pre.next=head
+        break
+    while stack:
+        pre.next=stack.pop()
+        pre=pre.next
+    pre.next=tmp
+    head=tmp
+
+
+方法二：
+
+迭代 尾插法：
+dummy.next=head
+pre，tail=dummy，dummy
+while True：
+    count=k
+    while count and tail：
+        tail=tail.next
+        count-=1
+    if not tail:
+        break
+    head=pre.next
+    while pre.next!=tail:
+        cur=pre.next
+        pre.next=cur.next
+        cur.next=tail.next
+        tail.next=cur
+    pre=head
+    tail=head
+return dummy.next
+
+方法三：
+
+递归
+
+count=0，cur=head
+while count!=k and cur:
+    cur=cur.next
+    count+=1
+if count==k:
+    cur = reverse_k_group_recurse(cur, k)
+    while count:
+        tmp=head.next
+        head.next=cur
+        cur=head
+        head=tmp
+        count-=1
+    head=cur
+
+
