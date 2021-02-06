@@ -100,6 +100,74 @@ def letter_combinations(digits: str) -> List[str]:
     return res
 
 
+"""
+柠檬酸找零
+"""
+
+
+def lemonade_change(bills):
+    five, ten = 0, 0
+    for bill in bills:
+        if bill == 5:
+            five += 1
+        elif bill == 10:
+            if five == 0:
+                return False
+            five -= 1
+            ten += 1
+        else:
+            if five > 0 and ten > 0:
+                five -= 1
+                ten -= 1
+            elif five >= 3:
+                five -= 3
+            else:
+                return False
+    return True
+
+
+def lemonade_change_list(bills):
+    a = [0] * 5
+    for bill in bills:
+        a[bill / 5] += 1
+        a[bill / 10] -= 1
+        a[bill / 20] -= 1
+        if a[1] < 0 or a[1] + 2 * a[2] < 0:
+            return False
+    return True
+
+
+"""
+122. 买卖股票的最佳时机 II
+"""
+
+
+def max_profit(prices: List[int]) -> int:
+    if len(prices) < 2:
+        return False
+    final_profit = 0
+    for i in range(1, len(prices)):
+        diff = prices[i] - prices[i - 1]
+        if diff > 0:
+            final_profit += diff
+    return final_profit
+
+
+"""
+455. 分发饼干
+"""
+
+
+def find_content_children(children: List[int], cookies: List[int]):
+    children.sort()
+    cookies.sort()
+    res, index = 0, len(cookies) - 1
+    for i in range(len(children) - 1, -1, -1):
+        if index >= 0 and cookies[index] >= children[i]:
+            res += 1
+            index -= 1
+    return res
+
 
 nums = [3, 2, 3]
 print(majority_element(nums))
