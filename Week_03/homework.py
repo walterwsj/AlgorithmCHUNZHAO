@@ -169,5 +169,41 @@ def find_content_children(children: List[int], cookies: List[int]):
     return res
 
 
-nums = [3, 2, 3]
-print(majority_element(nums))
+"""
+874. 模拟行走机器人
+"""
+
+
+def robot_sim(commands_list: List[int], obstacles_list: List[List[int]]) -> int:
+    if not commands_list:
+        return 0
+    direct_x = [0, 1, 0, -1]  # up;left;down;right
+    direct_y = [1, 0, -1, 0]
+    current_x, current_y, current_direct, ans = 0, 0, 0, 0
+    com_len, obs_len = len(commands), len(obstacles)
+    obstacle_set = {(obstacles[i][0], obstacles[i][1]) for i in range(obs_len)}
+
+    for i in range(com_len):
+        if commands_list[i] == -1:  # 向右转90度
+            current_direct = (current_direct + 1) % 4
+        elif commands_list[i] == -2:  # 向左转90度
+            current_direct = (current_direct + 3) % 4
+        else:  # 1 <= x <= 9: 向前移动x个单位长度
+            for j in range(commands_list[i]):
+                # 试图走出一步，并判断是否遇到了障碍物
+                nx = current_x + direct_x[current_direct]
+                ny = current_y + direct_y[current_direct]
+                # 当前坐标不是障碍物，计算并存储的最大欧式距离的平方做比较
+                if (nx, ny) not in obstacle_set:
+                    current_x = nx
+                    current_y = ny
+                    ans = max(ans, current_x * current_x + current_y * current_y)
+                else:
+                    # 是障碍点，被挡住了，停留，智能等待下一个指令，那可以跳出当前指令了。
+                    break
+    return ans
+
+
+commands = [4, -1, 4, -2, 4]
+obstacles = [[2, 4]]
+print(robot_sim(commands, obstacles))
