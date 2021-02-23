@@ -174,4 +174,24 @@ def unique_path(m, n):
 
 m = 3
 n = 7
-print(unique_path(m,n))
+print(unique_path(m, n))
+
+"""
+不同路径2
+"""
+
+
+def unique_paths_with_obstacles(obstacleGrid: List[List[int]]) -> int:
+    height, width = len(obstacleGrid), len(obstacleGrid[0])
+    store = [[0] * width for _ in range(height)]
+
+    for m in range(height):
+        for n in range(width):
+            if not obstacleGrid[m][n]:
+                if not (m or n):
+                    store[m][n] = 1
+                else:
+                    a = store[m - 1][n] if m != 0 else 0
+                    b = store[m][n - 1] if n != 0 else 0
+                    store[m][n] = a + b
+    return store[-1][-1]
