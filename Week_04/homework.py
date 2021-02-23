@@ -107,7 +107,6 @@ def least_interval(tasks: List[str], n: int) -> int:
     return max(res, len(tasks))
 
 
-
 """
 回文子串
 """
@@ -159,3 +158,20 @@ def longest_valid_parentheses(s: str) -> int:
                 res = max(res, i - stack[-1])
     return res
 
+
+"""
+62. 不同路径
+"""
+
+
+def unique_path(m, n):
+    dp = [[1] * n] + [[1] + [0] * (n - 1) for _ in range(m - 1)]
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+    return dp[-1][-1]
+
+
+m = 3
+n = 7
+print(unique_path(m,n))
