@@ -311,15 +311,10 @@ class UnionFindIsLand:
                     self.count += 1
 
     def find(self, x):
-        root = x
-        while self.parent[root] is not None:
-            root = self.parent[root]
-
-        while x != root:
-            original_parent = self.parent[x]
-            self.parent[x] = None
-            x = original_parent
-        return root
+        while self.parent[x] != x:
+            self.parent[x] = self.parent[self.parent[x]]
+            x = self.parent[x]
+        return x
 
     def union(self, x, y):
         root_x, root_y = self.find(x), self.find(y)
@@ -347,7 +342,7 @@ def num_is_lands(grid: List[List[str]]) -> int:
                 for x, y in [(r + 1, c), (r, c + 1)]:
                     if 0 <= x < nr and 0 <= y < nc and grid[x][y] == "1":
                         uf.union(r * nc + c, x * nc + y)
-    return uf.getCount() - num_islands
+    return uf.getCount()
 
 
 test = [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]
