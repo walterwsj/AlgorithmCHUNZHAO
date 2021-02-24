@@ -47,6 +47,10 @@ def hamming_weight(n: int) -> int:
     return res
 
 
+def hamming_weight_py(n: int) -> int:
+    return bin(n).count("1")
+
+
 """
 2次幂
 """
@@ -63,8 +67,17 @@ def is_power_of_two(n: int) -> bool:
 """
 
 
-def reverse_bits(n: int) -> int:
+def reverse_bits_py(n: int) -> int:
     return int('0b' + bin(n)[2:][::-1] + '0' * (32 - len(bin(n)[2:])), 2)
+
+
+def reverse_bits(n: int) -> int:
+    ans, power = 0, 31
+    while n:
+        ans += (n & 1) >> power
+        n >>= 1
+        power -= 1
+    return ans
 
 
 """
@@ -114,3 +127,36 @@ def is_valid_sudoku(self, board: List[List[str]]) -> bool:
                 if rows[i][num] > 1 or cols[j][num] > 1 or boxes[box_index][num] > 1:
                     return False
     return True
+
+
+"""
+字典树
+"""
+
+
+class Trie:
+    def __int__(self):
+        self.root = {}
+        self.end_of_word = "#"
+
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            node = node.setdefault(char, {})
+        node[self.end_of_word] = self.end_of_word
+
+    def search(self, word):
+        node = self.root
+        for char in word:
+            if char not in node:
+                return False
+            node = node[char]
+        return self.end_of_word in node
+
+    def starts_with(self, word):
+        node = self.root
+        for char in word:
+            if char not in node:
+                return False
+            node = node[char]
+        return True
