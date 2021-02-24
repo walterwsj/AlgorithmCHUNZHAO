@@ -213,3 +213,82 @@ class Solution:
             if 0 <= x < self.m and 0 <= y < self.n and board[x][y] != '@' and board[x][y] in current_dict:
                 self._dfs(board, x, y, current_word, current_dict)
         board[i][j] = tmp
+
+
+"""
+省份数量
+"""
+
+
+class UnionFind:
+    def __init__(self):
+        self.father = {}
+        self.num_of_sets = 0
+
+    def find(self, x):
+        root = x
+        while self.father[root] is not None:
+            root = self.father[root]
+
+        while x != root:
+            original_father = self.father[x]
+            self.father[x] = root
+            x = original_father
+
+        return root
+
+    def merge(self, x, y):
+        root_x, root_y = self.find(x), self.find(y)
+        if root_x != root_y:
+            self.father[root_x] = root_y
+            self.num_of_sets -= 1
+
+    def add(self, x):
+        if x not in self.father:
+            self.father[x] = None
+            self.num_of_sets += 1
+
+
+def find_circle_num(M: List[List[int]]) -> int:
+    uf = UnionFind()
+    for i in range(len(M)):
+        uf.add(i)
+        for j in range(i):
+            if M[i][j]:
+                uf.merge(i, j)
+
+    return uf.num_of_sets
+
+
+"""
+并查集模板
+"""
+
+
+class UnionFindSet:
+    def __init__(self):
+        self.num_of_sets = 0
+        self.father = {}
+
+    def find(self, x):
+        root = x
+        while self.father[root] is not None:
+            root = self.father[root]
+
+        while x != root:
+            original_father = self.father[x]
+            self.father[x] = None
+            x = original_father
+
+        return root
+
+    def merge(self, x, y):
+        root_x, root_y = self.find(x), self.find(y)
+        if root_x != root_y:
+            self.father[root_x] = root_y
+            self.num_of_sets -= 1
+
+    def add(self, x):
+        if x not in self.father:
+            self.father[x] = None
+            self.num_of_sets += 1
