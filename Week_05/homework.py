@@ -292,3 +292,63 @@ class UnionFindSet:
         if x not in self.father:
             self.father[x] = None
             self.num_of_sets += 1
+
+
+"""
+island
+"""
+
+
+class UnionFindIsLand:
+    def __init__(self, grid):
+        m, n = len(grid), len(grid[0])
+        self.count = 0
+        self.parent = [-1] * (m * n)
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == "1":
+                    self.parent[i * n + j] = i * n + j
+                    self.count += 1
+
+    def find(self, x):
+        root = x
+        while self.parent[root] is not None:
+            root = self.parent[root]
+
+        while x != root:
+            original_parent = self.parent[x]
+            self.parent[x] = None
+            x = original_parent
+        return root
+
+    def union(self, x, y):
+        root_x, root_y = self.find(x), self.find(y)
+        if root_x != root_y:
+            self.parent[root_x] = root_y
+            self.count -= 1
+
+    def getCount(self):
+        return self.count
+
+
+def num_is_lands(grid: List[List[str]]) -> int:
+    nr = len(grid)
+    if nr == 0:
+        return 0
+    nc = len(grid[0])
+
+    uf = UnionFindIsLand(grid)
+    num_islands = 0
+    for r in range(nr):
+        for c in range(nc):
+            if grid[r][c] == "0":
+                num_islands += 1
+            else:
+                for x, y in [(r + 1, c), (r, c + 1)]:
+                    if 0 <= x < nr and 0 <= y < nc and grid[x][y] == "1":
+                        uf.union(r * nc + c, x * nc + y)
+    return uf.getCount() - num_islands
+
+
+test = [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]
+print(num_is_lands(test))
