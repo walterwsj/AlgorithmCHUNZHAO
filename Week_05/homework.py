@@ -345,5 +345,56 @@ def num_is_lands(grid: List[List[str]]) -> int:
     return uf.getCount()
 
 
+"""
+被围绕的区域
+"""
+
+
+class UnionFind2:
+    def __init__(self, dummy):
+        self.f = [i for i in range(dummy + 1)]
+
+    def find(self, x):
+        root = x
+        while root != self.f[root]:
+            root = self.f[root]
+        while x != self.f[x]:
+            original = x
+            x = self.f[x]
+            self.f[original] = root
+        return root
+
+    def union(self, x, y):
+        self.f[self.find(y)] = self.find(x)
+
+
+class Solution2:
+    def solve(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        if not board or not board[0]:
+            return
+        row = len(board)
+        col = len(board[0])
+        dummy = row * col
+        uf = UnionFind2(dummy)
+        for i in range(row):
+            for j in range(col):
+                if board[i][j] == "O":
+                    if i == 0 or j == 0 or j == col - 1 or i == row - 1:
+                        uf.union(i * col + j, dummy)
+                    else:
+                        for x, y in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                            if board[i + x][j + y] == "O":
+                                uf.union(i * col + j, (i + x) * col + (j + y))
+        for i in range(row):
+            for j in range(col):
+                if uf.find(dummy) == uf.find(i * col + j):
+                    board[i][j] = "O"
+                else:
+                    board[i][j] = "X"
+
+
 test = [["1", "1", "1", "1", "0"], ["1", "1", "0", "1", "0"], ["1", "1", "0", "0", "0"], ["0", "0", "0", "0", "0"]]
 print(num_is_lands(test))
