@@ -1,4 +1,6 @@
 import collections
+import heapq
+import sys
 from typing import List
 
 
@@ -237,4 +239,27 @@ def top_k_frequent_heap(nums, k):
     return [item[0] for item in heap[1:]]
 
 
-print(top_k_frequent([1, 1, 1, 2, 2, 3], 2))
+def max_sliding_window(nums: List[int], k: int) -> List[int]:
+    n = len(nums)
+    q = [(-nums[i], i) for i in range(k)]
+    heapq.heapify(q)
+    res = [-q[0][0]]
+    for i in range(k, n):
+        heapq.heappush(q, (-nums[i], i))
+        while q[0][1] <= i - k:
+            heapq.heappop(q)
+        res.append(-q[0][0])
+    return res
+
+
+def max_sliding_violent_solution(nums, k):
+    ans, len_nums = [], len(nums)
+    for i in range(len_nums - k + 1):
+        cur_max = -sys.maxsize
+        for j in range(i, i + k):
+            cur_max = max(cur_max, nums[j])
+        ans.append(cur_max)
+    return ans
+
+
+print(max_sliding_window([7, 1, 3, -1, -3, 5, 3, 6], 3))
