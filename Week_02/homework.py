@@ -28,7 +28,7 @@ def postorder(root: 'Node') -> List[int]:
     stack, res = [root], []
     while stack:
         tmp = stack.pop()
-        stack.append(tmp.children)
+        stack.extend(tmp.children)
         res.append(tmp.val)
     return res[::-1]
 
@@ -54,13 +54,15 @@ root = Node(1, [Node(3, [Node(5, []), Node(6, [])]), Node(2, []), Node(4, [])])
 def pre_order(root: 'Node') -> List[int]:
     if not root:
         return []
-    queue, res = [root], []
+    queue = collections.deque()
+    res = []
+    queue.append(root)
     while queue:
-        tmp_node = queue.pop(0)
+        tmp_node = queue.popleft()
         if tmp_node:
             res.append(tmp_node.val)
             for node in tmp_node.children[::-1]:
-                res.insert(0, node)
+                queue.appendleft(node)
     return res
 
 
