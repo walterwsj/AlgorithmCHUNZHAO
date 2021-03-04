@@ -7,6 +7,7 @@
 定义两个指针，一个在前一个在后，如果后一个指针指向的元素跟前一个指针所指元素不同，就把
 这个不同的元素赋值给前一指针的下一位；如果相同前指针不动，后指针继续向前。直到后指针到达数组
 的末尾，前指针停止的地方正好就是非重复的最后一个元素
+
     while q<len_nums:
         if nums[p]!=nums[q]:
             p+=1
@@ -22,6 +23,7 @@
 
 方法一:
     字面意思 循环K次 数组所有元素全部依次向右移动即可
+
     while k:
         tmp=nums[-1]
         for i in range(len_nums)[::-1]:
@@ -31,6 +33,7 @@
 
 方法二:
     字符串反转 全部反转->[:k-1]反转->[k:]反转
+
     reverse(nums,0,len_nums-1)
     reverse(nums,0,k-1)
     reverse(nums,k,len_nums-1)
@@ -71,6 +74,7 @@
 方法1: 暴力 两层循环
 
 方法2: 利用字典 哈希特性 一次循环
+
         for index,value in enumerate(nums):
             rest=target-value
             if rest in dict:

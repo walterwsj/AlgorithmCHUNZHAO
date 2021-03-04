@@ -7,7 +7,8 @@ from typing import List
 
 def reverse_str(test_str, k):
     result, flag = "", True
-    for i in range(0, len(str), k):
-        result += test_str[i, i + k][::-1] if flag else test_str[i, i + k]
+    for i in range(0, len(test_str), k):
+        result += test_str[i:i + k][::-1] if flag else test_str[i:i + k]
         flag = not flag
     return result
+

@@ -7,12 +7,8 @@ from typing import List
 
 
 def relative_sort_array_tuple(arr_1, arr_2):
-    def cmp(x):
-        return (0, rank[x]) if x in rank else (1, x)
-
     rank = {x: i for i, x in enumerate(arr_2)}
-    arr_1.sort(key=cmp)
-
+    arr_1.sort(key=lambda x: (0, rank[x]) if x in rank else (1, x))
     return arr1
 
 

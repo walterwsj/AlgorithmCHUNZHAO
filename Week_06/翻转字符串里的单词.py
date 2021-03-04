@@ -22,7 +22,7 @@ def reverse_words_deque(s):
             result.appendleft(''.join(tmp_word))
             tmp_word = []
         elif s[left] != ' ':
-            tmp_word.append(tmp_word)
+            tmp_word.append(s[left])
         left += 1
     result.appendleft(''.join(tmp_word))
     return ' '.join(result)

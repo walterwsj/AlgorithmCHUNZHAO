@@ -10,8 +10,14 @@ def first_unique_counter(word):
     for index, character in enumerate(word):
         if dic[character] == 1:
             return index
-    return None
+    return -1
 
 
-a = "aabcdeb"
-print(first_unique_counter(a))
+def first_unique_char(s: str) -> int:
+    dic = collections.Counter(s)
+    for item in dic.keys():
+        if dic[item] == 0:
+            return s.index(item)
+    return -1
+
+
